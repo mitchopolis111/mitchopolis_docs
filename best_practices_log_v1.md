@@ -126,6 +126,21 @@
 
 ---
 
+## Legal AI Engine (Service Overview)
+
+- **Codebase**: `~/Mitchopolis/legal_ai_engine`
+- **Repo**: `https://github.com/mitchopolis111/legal_ai_engine`
+- **Tech stack**: Node.js + Express + MongoDB
+- **Dev run**: `npm run dev` (auto-reload via Nodemon, port 3000)
+- **Health check**: `GET /health` → returns `{"status":"ok","service":"legal_ai_engine"}`
+- **Detailed setup, endpoints, and troubleshooting**: See `legal_ai_engine/README.md`
+
+**Current endpoints:**
+- Implemented: `/health`, `/api/evidence` (GET list, POST create)
+- Planned: `/api/evidence/:id` (GET/PUT/DELETE), `/api/evidence/search`, `/api/evidence/export`
+
+---
+
 ## Git Repository Planning (Map)
 
 ### Repos to Create
