@@ -131,6 +131,113 @@
 - Avoid storing large media in Git
 - Sync with iCloud/Drive only for non-code folders
 - Automations stay under `_core` and remain versioned
+
+## Git Standards & Workflow
+
+### 1. Global Git Configuration
+- `user.name` = "Mitchel Watson"
+- `user.email` = "owner@mitchopolis.com"
+- Default initial branch:
+  - Set globally via: `git config --global init.defaultBranch main`
+  - All new repos must start on `main`.
+
+---
+
+### 2. Branching Model
+
+- `main`
+  - Always stable, production‑truth branch.
+  - Only fast‑forward merges from reviewed branches (dev/feature/hotfix).
+- `dev`
+  - Active development branch.
+  - New work branches are created from here, not from `main`.
+- `feature/<short-description>`
+  - For new features or non‑urgent changes.
+  - Examples:
+    - `feature/evidence-sorting-v2`
+    - `feature/legal-api-endpoints`
+- `hotfix/<short-description>`
+  - For urgent fixes that must go to `main` quickly.
+  - Examples:
+    - `hotfix/fix-timeline-crash`
+    - `hotfix/atlas-connection-timeout`
+
+**Rules:**
+- No direct commits to `main` unless absolutely necessary.
+- Normal flow:
+  - `feature/*` → merge into `dev` → validate → merge `dev` into `main`.
+
+---
+
+### 3. Commit Message Convention
+
+Use a simple, consistent pattern:
+
+`<type>(<optional-scope>): <short, imperative summary>`
+
+**Types:**
+- `feat`  – new user‑visible feature
+- `fix`   – bug fix
+- `chore` – maintenance, config, scaffolding, no behavior change
+- `docs`  – documentation and best practices
+- `refactor` – internal restructuring, no behavior change
+- `test`  – add/improve tests
+
+**Examples:**
+- `chore: initialize mitchopolis_core repository`
+- `chore: initialize evidence_engine repository`
+- `chore(legal): initialize legal_ai_engine repository`
+- `feat(evidence): add OCR pipeline step`
+- `fix(timeline): handle empty evidence set`
+- `docs: update best practices log`
+
+**Rules:**
+- Keep subject line under ~72 characters.
+- Write in imperative form (e.g., “add”, “fix”, “update”, not “added” / “fixed”).
+- One logical change per commit where possible.
+
+---
+
+### 4. When to Commit
+
+- Commit when:
+  - A small, coherent unit of work is complete.
+  - Tests (if present) pass locally.
+  - The code runs without obvious errors for that change.
+- Do **not** commit:
+  - Temporary debug prints.
+  - Half‑finished experiments (unless clearly marked in commit message).
+
+---
+
+### 5. Multi‑Repo Discipline (Mitchopolis Ecosystem)
+
+Repos:
+- `mitchopolis_core` – automation scripts, watchers, LaunchAgent templates.
+- `evidence_engine` – Python microservice.
+- `legal_ai_engine` – Node/Express microservice.
+- `docs` – best practices, logs, operational guides.
+
+**Rules:**
+- Do not mix unrelated changes across repos in a single commit.
+- If a change spans multiple repos:
+  - Make separate, clearly related commits in each repo.
+  - Use similar commit messages for traceability (e.g., same summary text).
+- Heavy assets (photos, audio, exports, large evidence) stay **out of Git**.
+
+---
+
+### 6. Clean Working Tree Rule
+
+Before switching branches or ending a work session:
+- Run `git status`.
+- Aim for:
+  - `On branch dev` (or relevant feature branch)
+  - `nothing to commit, working tree clean`
+
+If there are changes:
+- Commit them, or
+- Stash them (`git stash`) if not ready to commit.
 ## Operational Wait-Time Guide (OWTG)
 
 ### Purpose
@@ -195,3 +302,4 @@ When dealing with cloud or automation, pause 5–10 seconds.**
 - Loaded multi-repo VS Code workspace.
 - Verified automation, pipeline, and environment stability.
 - Prepared for Git initialization and repository structure refinement.
+- Initialized Git repositories and defined Git standards & workflow.
