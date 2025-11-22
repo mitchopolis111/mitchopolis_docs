@@ -108,7 +108,24 @@
 - `docs/` gets backed up weekly.
 - `parenting_evidence/exports/` backed up daily via iCloud.
 - `LaunchAgents` and automation workflows stored in `_core/` and included in Git.
- 
+
+---
+
+## Evidence Engine (Service Overview)
+
+- **Codebase**: `~/Mitchopolis/evidence_engine`
+- **Repo**: `https://github.com/mitchopolis111/evidence_engine`
+- **Tech stack**: Python + FastAPI + Uvicorn
+- **Dev run (preferred)**: From `~/Mitchopolis` root, run `./run_evidence_api_dev.sh`
+- **Health check**: `GET /health` → returns `{"status":"ok","service":"evidence_engine"}`
+- **Detailed setup, endpoints, and troubleshooting**: See `evidence_engine/README.md`
+
+**Current endpoints:**
+- Implemented: `/health`, `/api/evidence/process` (upload → OCR → classify → timeline)
+- Planned: `/api/evidence/ingest`, `/api/evidence/timeline/{case_id}`, `/api/evidence/export`
+
+---
+
 ## Git Repository Planning (Map)
 
 ### Repos to Create
