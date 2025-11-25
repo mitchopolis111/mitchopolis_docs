@@ -15,9 +15,19 @@
 - Keep venv-contained work isolated
 - End-of-day system checks must be run from a clean Terminal window.
 
+
 ## 4. Projects & Chat Routing
 - Each ChatGPT project only accesses its own files
 - Use this project for task flows and best practices only
+
+## 4.1 Prompt Procedure (Best Practice)
+
+- Start with a clear **intent statement** (what outcome is desired).
+- Specify **context**: which repo, which service, which folder, or which terminal.
+- Define **format**: commands first, explanations second.
+- State **constraints**: “use best practice procedure”, “short answer”, or “step-by-step”.
+- Add **safety flags**: avoid running unknown commands, avoid modifying multiple repos at once.
+- Require a **final confirmation step**: assistant summarizes and asks for “Proceed?” before executing major operations.
 
 ## 5. Open Items / To Refine
 - Mac folder structure standards
@@ -38,10 +48,46 @@
 - Folder structure reviewed and confirmed healthy.
 
 ## Daily Task Flow — 2025-11-21 (Template)
+- Session Header:
+  - Date/time (local), repo(s), branch, cwd(s).
+  - Active services/ports (uvicorn:8000, legal_api:3000).
+  - Today’s focus (e.g., Day 2 – court-ready packaging).
+
+- Status Dashboard (pre-flight):
+  - Services state: up/down.
+  - Last tests + result: `pytest -q` (evidence_engine), `npm test` (legal_ai_engine).
+  - Git: `git status -sb` (clean?); open PRs to review?
+
 - System Check:
   - Open new Terminal window
   - Validate environment paths
   - Confirm LaunchAgents status
+
+- Quick-Start Commands (reference):
+  ```
+  # Root launcher
+  cd ~/Mitchopolis
+  ./run_evidence_api_dev.sh
+
+  # Evidence Engine
+  cd ~/Mitchopolis/evidence_engine
+  source venv/bin/activate
+  pytest -q
+
+  # Legal AI Engine
+  cd ~/Mitchopolis/legal_ai_engine
+  npm test
+
+  # Ports sanity
+  lsof -i :8000
+  lsof -i :3000
+  ```
+
+- Working Directory Guidance:
+  - `~/Mitchopolis` for `./run_evidence_api_dev.sh`.
+  - `~/Mitchopolis/evidence_engine` for venv commands, pytest, uvicorn tweaks.
+  - `~/Mitchopolis/legal_ai_engine` for npm/yarn and Jest.
+  - Use new Terminal tabs for system-level or cross-repo commands.
 
 - Workflow Execution:
   - Run `make full` in evidence_engine
@@ -327,6 +373,82 @@ These timing rules ensure predictable, stable execution of scripts and system-le
 ### Summary Rule
 **When in doubt, pause 1–3 seconds.  
 When dealing with cloud or automation, pause 5–10 seconds.**
+## Shutdown Procedure (Daily Closeout)
+
+### 1. Stop All Running Services
+
+#### Evidence Engine (Python)
+- Go to the Terminal tab running `uvicorn`
+- Press CTRL + C
+- Verify nothing is running:
+```
+lsof -i :8000
+```
+- Output should be empty.
+
+#### Legal AI Engine (Node/Express)
+- Go to the Terminal tab running `npm run dev`
+- Press CTRL + C
+- Verify nothing is listening:
+```
+lsof -i :3000
+```
+- Output should be empty.
+
+---
+
+### 2. Clean Environment State
+- Close all remaining Terminal tabs related to microservices
+- Ensure `~/Mitchopolis` has no temporary processes running
+
+---
+
+### 3. Git Sync & Documentation
+- Ensure working trees are clean:
+```
+git status -sb
+```
+- If changes exist:
+  - Commit them
+  - Push to origin/dev
+- Update Best Practices Log (this file)
+
+---
+
+### 4. Close Applications
+- Quit VS Code
+- Quit Terminal
+- Confirm cloud sync has completed (iCloud/Google Drive indicators)
+
+---
+
+### 5. Final Note
+System is now safely shut down and ready for next session.
+
+## Mitchopolis Roadmap (Active Build Plan)
+
+### Day 1 — Evidence Engine Pipeline Completion
+- Finalize ingestion → OCR → classification → timeline flow.
+- Add endpoint coverage for planned routes.
+- Expand pytest to include negative/edge cases.
+
+### Day 2 — Court-Ready Evidence Packaging
+- Add PDF/ZIP packaging pipeline using Python.
+- Standardize folder structure for exports.
+- Add automatic naming conventions for court submissions.
+- Add integration test for full evidence package run.
+
+### Day 3 — Legal AI Engine Case Intelligence
+- Add case-based evidence retrieval routes (`/api/evidence/:id`).
+- Implement search and filter routes.
+- Build analysis helpers (classify, group, summarize).
+- Add Jest tests for all new endpoints.
+
+### Future Milestones
+- Full-case timeline builder combining both engines.
+- Automated “Court Bundle Generator” (PDF + index + timeline).
+- Full UI dashboard (Phase 2).
+
 ## Daily Log — 2025-11-22
 - Completed system health check (LaunchAgents + logs).
 - Expanded Mac Folder Structure Standards.
@@ -335,4 +457,111 @@ When dealing with cloud or automation, pause 5–10 seconds.**
 - Verified automation, pipeline, and environment stability.
 - Prepared for Git initialization and repository structure refinement.
 - Initialized Git repositories and defined Git standards & workflow.
- - Pushed main and dev branches for all core repos to GitHub.
+
+
+## Daily Log — 2025-11-24
+- Performed full system startup verification using verify_build.sh.
+- Both Evidence Engine and Legal AI Engine started cleanly.
+- Confirmed no leftover processes on ports 8000 or 3000 before launch.
+- Completed service health checks (`/health` and `/version` for both services).
+- Verified Jest tests (legal_ai_engine) and pytest suite (evidence_engine) passing.
+- System stable and ready for work session.
+
+
+## Mitchopolis Roadmap (Active Build Plan)
+
+### Day 1 — Evidence Engine Pipeline Completion
+- Finalize ingestion, classification, OCR, and timeline pipeline.
+- Expand pytest coverage to include edge cases.
+- Add performance logging to OCR and classifier stages.
+
+### Day 2 — Court-Ready Evidence Packaging
+- Implement timeline + evidence ZIP export via API.
+- Add PDF generation for timeline summaries.
+- Build `/api/evidence/export` endpoint with authentication placeholder.
+- Add pytest for export flow.
+
+### Day 3 — Legal AI Engine Case Intelligence
+- Implement CRUD routes for evidence items in legal_ai_engine.
+- Add `/api/evidence/search` with basic filters.
+- Integrate test-mode behavior for safe runs without real DB.
+- Expand Jest coverage to include controller-level tests.
+
+
+### Future Milestones
+- Add cross-service communication (Evidence Engine → Legal AI Engine aggregation).
+- Implement authentication + user profiles.
+- Add full case file assembly (affidavits, exhibits, indexes).
+- Build dashboard UI for end-to-end legal workflow.
+
+## Appendix A – Prompt Templates (Best Practice)
+
+### 1. Daily Task Flow Prompt
+```
+Header: date/time (local), repo(s), branch, cwd(s), active services/ports, today’s focus.
+Status dashboard: services up/down; last tests + result (pytest -q, npm test); git status -sb clean?; open PRs?
+Intent: <what I need to accomplish this session>.
+Context: repo(s), branch, service, cwd, active terminals.
+Tasks: <ordered list of tasks or checkpoints>.
+Format: commands first (macOS + zsh), brief notes second; keep concise.
+Constraints: apply best-practice procedure, avoid destructive changes, confirm before high-risk steps.
+Request: Summarize plan, ask "Proceed?" before executing major actions.
+Quick-start (reference):
+- From ~/Mitchopolis: ./run_evidence_api_dev.sh
+- From ~/Mitchopolis/evidence_engine: source venv/bin/activate; pytest -q
+- From ~/Mitchopolis/legal_ai_engine: npm test
+- Ports: lsof -i :8000 and :3000
+Working dirs: root for launcher; evidence_engine for Python work; legal_ai_engine for Node work.
+```
+
+### 2. Technical Command Prompt
+```
+You are on macOS using zsh. Provide exact commands to <objective>.
+Assume cwd: <path>. Avoid sudo or network unless requested.
+Return a shell block with commands only, then a one-line explanation.
+```
+
+### 3. Code-Modification Prompt (VS Code)
+```
+Goal: <describe change>.
+File(s): <path(s)>.
+Context: repo, branch, language/framework constraints.
+Instructions: use apply_patch when small; keep ASCII unless existing Unicode; minimal, useful comments only.
+Output: step-by-step edits plus verification commands/tests to run.
+```
+
+### 4. Documentation Update Prompt
+```
+Append to <doc path>:
+- Date:
+- Changes made:
+- Tests run:
+- Next steps:
+Use concise bullets; avoid repeating existing log entries.
+```
+
+### 5. Git Hygiene Prompt
+```
+Run from <repo path>:
+1) git status -sb
+2) git add <files>
+3) git commit -m "<type>(<scope>): <summary>"
+4) git push origin <branch>
+Confirm clean working tree at the end.
+```
+
+### 6. Shutdown Procedure Prompt
+```
+Stop services: CTRL+C uvicorn (port 8000), CTRL+C npm run dev (port 3000).
+Verify ports: lsof -i :8000 and :3000 should be empty.
+Git sync: git status -sb; commit/push if needed.
+Close apps: VS Code, Terminal; confirm cloud sync indicators.
+```
+
+### 7. Recon/Diagnostic Prompt
+```
+Intent: diagnose <issue/area>.
+Context: repo/service, branch, cwd, env (venv/node), ports of interest.
+Procedure: list safe read-only checks (version, env vars, lsof, ps, logs).
+Format: commands first, expected signals second; call out risks; request confirmation if a command could be disruptive.
+```
