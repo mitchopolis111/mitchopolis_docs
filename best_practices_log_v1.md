@@ -565,3 +565,16 @@ Context: repo/service, branch, cwd, env (venv/node), ports of interest.
 Procedure: list safe read-only checks (version, env vars, lsof, ps, logs).
 Format: commands first, expected signals second; call out risks; request confirmation if a command could be disruptive.
 ```
+## Daily Log — 2025-11-25
+- Implemented and tested a ZIP export helper in the Evidence Engine.
+- Added a configurable `/api/evidence/export` endpoint to `router.py` which zips a chosen folder (via `folder` query param, env var fallback, or default `~/Mitchopolis/parenting_evidence/text_logs`) and returns it as `application/zip`.
+- Wrote and passed an integration test (`test_export_endpoint.py`) using FastAPI’s `TestClient` to verify the endpoint’s status code and headers.
+- Created branch `feature/export-configurable`, committed and pushed the changes, and added `.DS_Store` to `.gitignore`.
+- Confirmed that all tests (including the new integration test) pass in GitHub Actions / local test suite.
+
+## Day 3 — Planned Tasks
+- **Ingest endpoint:** Restore the stashed `ocr.py`, `router.py`, and `test_ingest_endpoint.py` changes and finish the `/api/evidence/ingest` endpoint. Write and run an integration test for it.
+- **Packaging pipeline:** Begin integrating the ZIP exporter into a full “court‑ready package” pipeline (ZIP + PDF generation) and verify naming conventions.
+- **Documentation:** Update `README.md` and project docs to describe the new export endpoint and its configuration (folder param, env var).
+- **Folder descriptions:** Add short descriptions of each project folder (`evidence_engine`, `legal_ai_engine`, `mitchopolis_core`, `docs`, etc.) to the Best Practices Log for quick reference.
+- **PR housekeeping:** Open a pull request for `feature/export-configurable` with a clear title/description and assign reviewer(s).
