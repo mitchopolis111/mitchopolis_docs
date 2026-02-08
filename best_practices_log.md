@@ -1,7 +1,9 @@
 ## Daily Log — 2026-02-08
 - Moved `best_practices_log.md` to repo root (from `docs/logs/`) to match README/procedure references.
+- Added batch ingestion script: `evidence_engine/scripts/batch_ingest_folder.py`.
+- Updated `evidence_engine/scripts/README.md` with script usage.
 - Smoke test: `evidence_engine/scripts/curl_process_evidence.sh` (PASS).
-- Tests run: smoke test only.
+- Tests run: `pytest -q` (9 passed); smoke test (PASS).
 - Next steps: none.
 
 ## Daily Log — 2025-11-29
