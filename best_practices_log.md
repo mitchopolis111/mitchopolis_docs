@@ -3,6 +3,7 @@
 - Added batch ingestion script: `evidence_engine/scripts/batch_ingest_folder.py`.
 - Updated `evidence_engine/scripts/README.md` with script usage.
 - Smoke test: `evidence_engine/scripts/curl_process_evidence.sh` (PASS).
+- Ingested `OFW_Messages_Report_2026-01-26_07-24-21 (1).pdf` via `scripts/batch_ingest_folder.py` for case `BCSC_138865_Watson_v_McClean` (tags: `our-family-wizard`, `messages`) — batch 1 OK (classified_count=1).
 - Tests run: `pytest -q` (9 passed); smoke test (PASS).
 - Next steps: none.
 
