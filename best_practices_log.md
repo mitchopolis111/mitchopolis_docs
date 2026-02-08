@@ -5,6 +5,7 @@
 - Smoke test: `evidence_engine/scripts/curl_process_evidence.sh` (PASS).
 - Ingested `OFW_Messages_Report_2026-01-26_07-24-21 (1).pdf` via `scripts/batch_ingest_folder.py` for case `BCSC_138865_Watson_v_McClean` (tags: `our-family-wizard`, `messages`) — batch 1 OK (classified_count=1).
 - Added inbox watcher script: `evidence_engine/scripts/watch_inbox.py` (polling auto-ingest + move to case folder).
+- Added watcher helper scripts: `evidence_engine/scripts/watch_inbox_start.sh` and `watch_inbox_stop.sh`.
 - Tests run: `pytest -q` (9 passed); smoke test (PASS).
 - Next steps: none.
 
