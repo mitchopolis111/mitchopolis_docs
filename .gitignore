@@ -1,2 +1,5 @@
 *.log
 *.tmp
+.DS_Store
+*.scpt
+iTerm2 Session*.txt
