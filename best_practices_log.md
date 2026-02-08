@@ -1,3 +1,9 @@
+## Daily Log — 2026-02-08
+- Moved `best_practices_log.md` to repo root (from `docs/logs/`) to match README/procedure references.
+- Smoke test: `evidence_engine/scripts/curl_process_evidence.sh` (PASS).
+- Tests run: smoke test only.
+- Next steps: none.
+
 ## Daily Log — 2025-11-29
 - Split best practices into:
   - best_practice_procedures_master.md
