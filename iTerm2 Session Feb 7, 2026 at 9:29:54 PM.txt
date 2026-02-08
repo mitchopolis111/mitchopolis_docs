@@ -1,0 +1,871 @@
+E   SyntaxError: invalid syntax 
+_______ ERROR collecting tests/test_ingest_endpoint.py ________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule 
+    mod = import_path( 
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:587: in import_path 
+    importlib.import_module(module_name) 
+/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module 
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import 
+    ??? 
+<frozen importlib._bootstrap>:1007: in _find_and_load 
+    ??? 
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked 
+    ??? 
+<frozen importlib._bootstrap>:680: in _load_unlocked 
+    ??? 
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:186: in exec_module 
+    exec(co, module.__dict__) 
+tests/test_ingest_endpoint.py:8: in <module> 
+    from src.main import app 
+src/main.py:2: in <module> 
+    from .router import router 
+src/router.py:4: in <module> 
+    from .utils.zip_exporter import generate_evidence_zip 
+src/utils/__init__.py:1: in <module> 
+    from .zip_exporter import generate_evidence_zip 
+E     File "/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/utils/zip_exporter.py", line 2 
+E       <<<<<<< ours 
+E       ^ 
+E   SyntaxError: invalid syntax 
+_______ ERROR collecting tests/test_process_evidence.py _______
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule 
+    mod = import_path( 
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:587: in import_path 
+    importlib.import_module(module_name) 
+/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module 
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import 
+    ??? 
+<frozen importlib._bootstrap>:1007: in _find_and_load 
+    ??? 
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked 
+    ??? 
+<frozen importlib._bootstrap>:680: in _load_unlocked 
+    ??? 
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:186: in exec_module 
+    exec(co, module.__dict__) 
+tests/test_process_evidence.py:6: in <module> 
+    from src.main import app 
+src/main.py:2: in <module> 
+    from .router import router 
+src/router.py:4: in <module> 
+    from .utils.zip_exporter import generate_evidence_zip 
+src/utils/__init__.py:1: in <module> 
+    from .zip_exporter import generate_evidence_zip 
+E     File "/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/utils/zip_exporter.py", line 2 
+E       <<<<<<< ours 
+E       ^ 
+E   SyntaxError: invalid syntax 
+_________ ERROR collecting tests/test_zip_exporter.py _________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule 
+    mod = import_path( 
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:587: in import_path 
+    importlib.import_module(module_name) 
+/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module 
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import 
+    ??? 
+<frozen importlib._bootstrap>:1007: in _find_and_load 
+    ??? 
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked 
+    ??? 
+<frozen importlib._bootstrap>:680: in _load_unlocked 
+    ??? 
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:186: in exec_module 
+    exec(co, module.__dict__) 
+tests/test_zip_exporter.py:9: in <module> 
+    from src.main import app 
+src/main.py:2: in <module> 
+    from .router import router 
+src/router.py:4: in <module> 
+    from .utils.zip_exporter import generate_evidence_zip 
+src/utils/__init__.py:1: in <module> 
+    from .zip_exporter import generate_evidence_zip 
+E     File "/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/utils/zip_exporter.py", line 2 
+E       <<<<<<< ours 
+E       ^ 
+E   SyntaxError: invalid syntax 
+=================== short test summary info ===================
+ERROR tests/test_court_bundle.py 
+ERROR tests/test_export_endpoint.py 
+ERROR tests/test_ingest_endpoint.py 
+ERROR tests/test_process_evidence.py 
+ERROR tests/test_zip_exporter.py 
+!!!!!!!!!!! Interrupted: 5 errors during collection !!!!!!!!!!!
+5 errors in 0.47s 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % >....
+mkdir -p "$OUTDIR" 
+ 
+python - <<'PY' 
+from src.main import app 
+import json 
+from pathlib import Path 
+ 
+out = Path("artifacts/build") / __import__("datetime").date.today().isoformat() 
+out.mkdir(parents=True, exist_ok=True) 
+ 
+spec = app.openapi() 
+(out / "openapi.generated.json").write_text(json.dumps(spec, indent=2), encoding="utf-8") 
+(out / "openapi.paths.txt").write_text("\n".join(sorted(spec.get("paths", {}).keys())) + "\n", encoding="utf-8") 
+ 
+schemas = sorted(spec.get("components", {}).get("schemas", {}).keys()) 
+(out / "openapi.schemas.txt").write_text("\n".join(schemas) + "\n", encoding="utf-8") 
+ 
+print("Wrote OpenAPI artifacts to:", out) 
+PY 
+ 
+ls -lah "$OUTDIR" 
+Traceback (most recent call last): 
+  File "<stdin>", line 1, in <module> 
+  File "/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/main.py", line 2, in <module> 
+    from .router import router 
+  File "/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/router.py", line 4, in <module> 
+    from .utils.zip_exporter import generate_evidence_zip 
+  File "/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/utils/__init__.py", line 1, in <module> 
+    from .zip_exporter import generate_evidence_zip 
+  File "/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/utils/zip_exporter.py", line 2 
+    <<<<<<< ours 
+    ^ 
+SyntaxError: invalid syntax 
+total 0 
+drwxr-xr-x@ 2 mitchelwatson  staff    64B Feb  7 18:03 . 
+drwxr-xr-x@ 4 mitchelwatson  staff   128B Feb  7 18:03 .. 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % source "$HOME/.config/mitchopolis/env.sh" 
+cd "$EE" || exit 1 
+source .venv/bin/activate 
+unset PYTHONHOME PYTHONPATH 
+export PYTHONNOUSERSITE=1 
+ 
+# free port 8000 if needed 
+PID="$(lsof -tiTCP:8000 -sTCP:LISTEN 2>/dev/null || true)" 
+[ -n "$PID" ] && kill "$PID" || true 
+ 
+./scripts/run_evidence_api_dev.sh 
+zsh: no such file or directory: ./scripts/run_evidence_api_dev.sh 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine %  
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % source "$HOME/.config/mitchopolis/env.sh" 
+cd "$EE" || exit 1 
+ 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git status --porcelain 
+ 
+A  src/utils/__init__.py 
+A  src/utils/court_bundle.py 
+AA src/utils/zip_exporter.py 
+A  tests/conftest.py 
+A  tests/test_court_bundle.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git grep -n '<<<<<<<\|=======' '>>>>>>>' || true 
+fatal: ambiguous argument '>>>>>>>': unknown revision or path not in the working tree. 
+Use '--' to separate paths from revisions, like this: 
+'git <command> [<revision>...] -- [<file>...]' 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cp "src/utils/zip_exporter.py" "/tmp/zip_exporter.py.bak.$(date +%Y%m%d_%H%M%S)" 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % >....
+    if env: 
+        return Path(env).expanduser().resolve() 
+    return Path.home() / "Mitchopolis" 
+ 
+ 
+def _cases_root() -> Path: 
+    root = _mitchopolis_root() 
+    # support legacy layout if it exists 
+    candidates = [root / "cases", root / "_core" / "cases"] 
+    for c in candidates: 
+        if c.exists(): 
+            return c 
+    return root / "cases" 
+ 
+ 
+def _iter_files(case_dir: Path, exclude_dirnames: Sequence[str]) -> Iterable[Path]: 
+    for p in case_dir.rglob("*"): 
+        if p.is_dir(): 
+            continue 
+ 
+        rel_parts = p.relative_to(case_dir).parts 
+ 
+        # exclude any file under excluded dirs (at any depth) 
+        if any(d in rel_parts for d in exclude_dirnames): 
+            continue 
+ 
+        # ignore noisy filesystem artifacts 
+        if p.name in {".DS_Store", "Thumbs.db"}: 
+            continue 
+        if p.suffix in {".pyc"}: 
+            continue 
+ 
+        yield p 
+ 
+ 
+def generate_evidence_zip(case_id: str, *args, **kwargs) -> str: 
+    """ 
+    Flexible signature to tolerate call sites/tests that may pass extra args/kwargs. 
+    Common kwargs that can set the filename: output_name, bundle_name, filename, zip_name. 
+    """ 
+    case_id = str(case_id).strip() 
+    if not case_id: 
+        raise ValueError("case_id is required") 
+ 
+    case_dir = _cases_root() / case_id 
+    if not case_dir.exists(): 
+        raise FileNotFoundError(f"Case folder not found: {case_dir}") 
+ 
+    bundles_dir = case_dir / "bundles" 
+    bundles_dir.mkdir(parents=True, exist_ok=True) 
+heredoc>  
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cat > "src/utils/zip_exporter.py" <<'PY' 
+""" 
+zip_exporter.py 
+heredoc>  
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cat > "src/utils/zip_exporter.py" <<'PY' 
+ 
+heredoc>  
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % source "$HOME/.config/mitchopolis/env.sh" 
+cd "$EE" || exit 1 
+source .venv/bin/activate 
+ 
+unset PYTHONHOME PYTHONPATH 
+export PYTHONNOUSERSITE=1 
+ 
+echo "OK: $EE" 
+which python 
+OK: /Users/mitchelwatson/Projects/Mitchopolis/evidence_engine 
+/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/.venv/bin/python 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+git status --porcelain 
+ 
+# Correct command (note the -- . at the end) 
+git grep -n '<<<<<<<\|=======\|>>>>>>>' -- . || true 
+A  src/utils/__init__.py 
+A  src/utils/court_bundle.py 
+AA src/utils/zip_exporter.py 
+A  tests/conftest.py 
+A  tests/test_court_bundle.py 
+.gitignore:18:# ========================= 
+.gitignore:20:# ========================= 
+.gitignore:23:# ========================= 
+.gitignore:25:# ========================= 
+.gitignore:29:# ========================= 
+.gitignore:31:# ========================= 
+.gitignore:34:# ========================= 
+.gitignore:36:# ========================= 
+.gitignore:39:# ========================= 
+.gitignore:41:# ========================= 
+.gitignore:45:# ========================= 
+.gitignore:47:# ========================= 
+.gitignore:51:# ========================= 
+.gitignore:53:# ========================= 
+src/utils/zip_exporter.py:2:<<<<<<< ours 
+src/utils/zip_exporter.py:47:======= 
+src/utils/zip_exporter.py:65:>>>>>>> theirs 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+code "src/utils/zip_exporter.py" 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine %      
+ return c 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine %     r
+eturn root / "cases" 
+return: too many arguments 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine %  
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine %  
+def _iter_files(case_dir: Path, exclude_dirnames: Sequence[str]) -> Iterable[Path]: 
+    for p in case_dir.rglob("*"): 
+        if p.is_dir(): 
+            continue 
+ 
+        rel_parts = p.relative_to(case_dir).parts 
+        if any(d in rel_parts for d in exclude_dirnames): 
+            continue 
+ 
+        if p.name in {".DS_Store", "Thumbs.db"}: 
+            continue 
+        if p.suffix == ".pyc": 
+            continue 
+ 
+        yield p 
+ 
+ 
+def generate_evidence_zip(case_id: str, *args, **kwargs) -> str: 
+    """ 
+    Flexible signature to tolerate call sites/tests that may pass extra args/kwargs. 
+    Recognized kwargs for naming: output_name, bundle_name, filename, zip_name, out_name. 
+    """ 
+    case_id = str(case_id).strip() 
+^[[200~""" 
+zip_exporter.py 
+ 
+Input: 
+- case_id (string) 
+Processing: 
+- Determine Mitchopolis root (env MITCHOPOLIS if set, else ~/Mitchopolis) 
+- Walk the case directory and bundle files into a zip 
+Output: 
+- Zip written to: cases/<case_id>/bundles/<zip_name>.zip 
+Storage%                                                       
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % def _
+iter_files(case_dir: Path, exclude_dirnames: Sequence[str]) -> 
+Iterable[Path]: 
+zsh: number expected 
+    for p in case_dir.rglob("*"): 
+        if p.is_dir(): 
+            continue 
+ 
+        rel_parts = p.relative_to(case_dir).parts 
+        if any(d in rel_parts for d in exclude_dirnames): 
+            continue 
+ 
+        if p.name in {".DS_Store", "Thumbs.db"}: 
+            continue 
+        if p.suffix == ".pyc": 
+            continue 
+ 
+        yield p 
+ 
+ 
+def generate_evidence_zip(case_id: str, *args, **kwargs) -> str: 
+    """ 
+    Flexible signature to tolerate call sites/tests that may pass extra args/kwargs. 
+    Recognized kwargs for naming: output_name, bundle_name, filename, zip_name, out_name. 
+    """ 
+    case_id = str(case_id).strip() 
+^[[200~""" 
+zip_exporter.py 
+ 
+Input: 
+- case_id (string) 
+Processing: 
+- Determine Mitchopolis root (env MITCHOPOLIS if set, else ~/Mitchopolis) 
+- Walk the case directory and bundle files into a zip 
+Output: 
+- Zip written to: cases/<case_id>/bundles/<zip_name>.zip 
+Storage: 
+- On-disk zip file 
+""" 
+ 
+from __ffrom __ffrom __ffrom __ffrom __ffrom __ffrom __%       
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine %     f
+or p in case_dir.rglob("*"): 
+for>         if p.is_dir(): 
+for if>             continue 
+for if>  
+for if>         rel_parts = p.relative_to(case_dir).parts 
+for if>         if any(d in rel_parts for d in exclude_dirnames
+): 
+for if if>             continue 
+for if if>  
+for if if>         if p.name in {".DS_Store", "Thumbs.db"}: 
+for if if if>             continue 
+for if if if>         if p.suffix == ".pyc": 
+for if if if if>             continue 
+for if if if if>  
+for if if if if>         yield p 
+for if if if if>  
+for if if if if>  
+for if if if if> def generate_evidence_zip(case_id: str, *args,
+ **kwargs) -> str: 
+for if if if if>     """ 
+for if if if if dquote>     Flexible signature to tolerate call
+ sites/tests that may pass extra args/kwargs. 
+for if if if if dquote>     Recognized kwargs for naming: outpu
+t_name, bundle_name, filename, zip_name, out_name. 
+for if if if if dquote>     """ 
+for if if if if>     case_id = str(case_id).strip() 
+for if if if if function> >....                                
+name", "out_name"): 
+        if key in kwargs and kwargs[key]: 
+            name = str(kwargs[key]) 
+            break 
+ 
+    if not name: 
+        name = f"{case_id}_evidence.zip" 
+    if not name.lower().endswith(".zip"): 
+        name = f"{name}.zip" 
+ 
+    zip_path = bundles_dir / name 
+ 
+    exclude_dirs = ("bundles", "__pycache__", ".pytest_cache") 
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf: 
+        for fp in _iter_files(case_dir, exclude_dirs): 
+            arcname = fp.relative_to(case_dir).as_posix() 
+            zf.write(fp, arcname) 
+ 
+    return str(zip_path) 
+for if if if if if for if if if for if if if> cd "$EE" || exit 1 
+source .venv/bin/activate 
+ 
+python -m py_compile src/utils/zip_exporter.py 
+ 
+# mark as resolved (important: your status showed "AA" before) 
+git add src/utils/zip_exporter.py 
+ 
+# confirm no more conflict markers 
+git grep -n '<<<<<<<\|=======\|>>>>>>>' -- . || true 
+git status --porcelain 
+for if if if if if for if if if for if if if>  
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % source "$HOME/.config/mitchopolis/env.sh" 
+cd "$EE" || exit 1 
+source .venv/bin/activate 
+ 
+unset PYTHONHOME PYTHONPATH 
+export PYTHONNOUSERSITE=1 
+ 
+echo "EE=$EE" 
+echo "PY=$(which python)" 
+EE=/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine 
+PY=/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/.venv/bin/python 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+ 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git status --porcelain 
+ 
+A  src/utils/__init__.py 
+A  src/utils/court_bundle.py 
+AA src/utils/zip_exporter.py 
+A  tests/conftest.py 
+A  tests/test_court_bundle.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git grep -n '<<<<<<<\|=======\|>>>>>>>' -- . || true 
+ 
+.gitignore:18:# ========================= 
+.gitignore:20:# ========================= 
+.gitignore:23:# ========================= 
+.gitignore:25:# ========================= 
+.gitignore:29:# ========================= 
+.gitignore:31:# ========================= 
+.gitignore:34:# ========================= 
+.gitignore:36:# ========================= 
+.gitignore:39:# ========================= 
+.gitignore:41:# ========================= 
+.gitignore:45:# ========================= 
+.gitignore:47:# ========================= 
+.gitignore:51:# ========================= 
+.gitignore:53:# ========================= 
+src/utils/zip_exporter.py:2:<<<<<<< ours 
+src/utils/zip_exporter.py:47:======= 
+src/utils/zip_exporter.py:65:>>>>>>> theirs 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git checkout --ours -- src/utils/zip_exporter.py 
+ 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git add src/utils/zip_exporter.py 
+ 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git grep -n '<<<<<<<\|=======\|>>>>>>>' -- . || true 
+ 
+.gitignore:18:# ========================= 
+.gitignore:20:# ========================= 
+.gitignore:23:# ========================= 
+.gitignore:25:# ========================= 
+.gitignore:29:# ========================= 
+.gitignore:31:# ========================= 
+.gitignore:34:# ========================= 
+.gitignore:36:# ========================= 
+.gitignore:39:# ========================= 
+.gitignore:41:# ========================= 
+.gitignore:45:# ========================= 
+.gitignore:47:# ========================= 
+.gitignore:51:# ========================= 
+.gitignore:53:# ========================= 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git status --porcelain 
+A  src/utils/__init__.py 
+A  src/utils/court_bundle.py 
+A  tests/conftest.py 
+A  tests/test_court_bundle.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % code src/utils/zip_exporter.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+ 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+ 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git status 
+On branch feature/export-contract-test 
+Your branch is up to date with 'origin/feature/export-contract-test'. 
+ 
+Changes to be committed: 
+  (use "git restore --staged <file>..." to unstage) 
+	new file:   src/utils/__init__.py 
+	new file:   src/utils/court_bundle.py 
+	new file:   tests/conftest.py 
+	new file:   tests/test_court_bundle.py 
+ 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % git commit -m "Resolve zip_exporter merge conflict" 
+[feature/export-contract-test b930b45] Resolve zip_exporter merge conflict 
+ 4 files changed, 31 insertions(+) 
+ create mode 100644 src/utils/__init__.py 
+ create mode 100644 src/utils/court_bundle.py 
+ create mode 100644 tests/conftest.py 
+ create mode 100644 tests/test_court_bundle.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+DAY="$(date +%Y-%m-%d)" 
+OUTDIR="artifacts/build/$DAY" 
+mkdir -p "$OUTDIR" 
+ 
+curl -fsS http://127.0.0.1:8000/openapi.json -o "$OUTDIR/openapi.http.json" 
+python -m json.tool "$OUTDIR/openapi.http.json" > /dev/null 
+echo "Saved: $OUTDIR/openapi.http.json" 
+Saved: artifacts/build/2026-02-07/openapi.http.json 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % source "$HOME/.config/mitchopolis/env.sh" 
+cd "$EE" || exit 1 
+git status 
+git grep -n '<<<<<<<\|=======\|>>>>>>>' -- . || true 
+On branch feature/export-contract-test 
+Your branch is ahead of 'origin/feature/export-contract-test' by 1 commit. 
+  (use "git push" to publish your local commits) 
+ 
+Untracked files: 
+  (use "git add <file>..." to include in what will be committed) 
+	artifacts/ 
+ 
+nothing added to commit but untracked files present (use "git add" to track) 
+.gitignore:18:# ========================= 
+.gitignore:20:# ========================= 
+.gitignore:23:# ========================= 
+.gitignore:25:# ========================= 
+.gitignore:29:# ========================= 
+.gitignore:31:# ========================= 
+.gitignore:34:# ========================= 
+.gitignore:36:# ========================= 
+.gitignore:39:# ========================= 
+.gitignore:41:# ========================= 
+.gitignore:45:# ========================= 
+.gitignore:47:# ========================= 
+.gitignore:51:# ========================= 
+.gitignore:53:# ========================= 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+code src/analysis/evidence_pipeline.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+rg -n "def ocr_for_media_path" -S . 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % import io 
+zsh: command not found: import 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % >....
+    zoom = max(dpi, 72) / 72.0 
+ 
+    out_parts: list[str] = [] 
+    try: 
+        with fitz.open(p) as doc: 
+            page_count = doc.page_count 
+            n = min(max_pages, page_count) 
+            for i in range(n): 
+                page = doc.load_page(i) 
+                mat = fitz.Matrix(zoom, zoom) 
+                pix = page.get_pixmap(matrix=mat, alpha=False) 
+ 
+                # Convert pixmap -> PIL Image 
+                img_bytes = pix.tobytes("png") 
+                img = Image.open(io.BytesIO(img_bytes)) 
+ 
+                text = (pytesseract.image_to_string(img) or "").strip() 
+                if text: 
+                    out_parts.append(text) 
+    except Exception: 
+        return "" 
+ 
+    return "\n\n".join(out_parts).strip() 
+zsh: parse error near `}' 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % >....
+ 
+        max_pages = _env_int("EE_SCANNED_PDF_MAX_PAGES", 3) 
+        dpi = _env_int("EE_SCANNED_PDF_DPI", 200) 
+ 
+        scanned_text = _pdf_ocr_scanned(p, max_pages=max_pages, dpi=dpi) 
+ 
+        combined = "\n".join([extracted.strip(), scanned_text.strip()]).strip() 
+        return combined, bool(combined) 
+ 
+    # Images: pytesseract (existing logic) 
+    if ext in _IMAGE_EXTS: 
+        try: 
+            from PIL import Image 
+            import pytesseract 
+            img = Image.open(p) 
+            text = (pytesseract.image_to_string(img) or "").strip() 
+            return text, bool(text) 
+        except Exception: 
+            return "", False 
+ 
+    return "", False 
+zsh: parse error near `)' 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % def ocr_for_media_path(media_path: Optional[str], case_id: Optional[str] = None) -> Tuple[str, bool]: 
+    p = _resolve_existing_path(media_path, case_id=case_id) 
+    if not p: 
+        return "", False 
+ 
+    ext = p.suffix.lower() 
+ 
+if function>  
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % cd "$EE" || exit 1 
+code tests/test_process_evidence.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % >....        ], 
+    } 
+ 
+    r = client.post("/api/evidence/process", json=payload) 
+    assert r.status_code == 200, r.text 
+    data = r.json() 
+ 
+    entry = data["timeline"][0] 
+    assert entry["ocr_used"] is True 
+    assert entry["predicted_type"] == "PDF" 
+ 
+    # We expect OCR text to appear in summary and timestamp to be extracted 
+    assert "SCANNED" in entry["summary"] 
+    assert entry["timestamp"] == "2026-02-07" 
+ 
+    ocr_log = ( 
+        Path(monkeypatch.getenv("MITCHOPOLIS")) 
+        / "parenting_evidence" 
+        / "text_logs" 
+        / "CASE_SCANNED" 
+        / "ocr_S1.txt" 
+    ) 
+    assert ocr_log.exists() 
+zsh: parse error near `}' 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % brew install tesseract 
+==> Auto-updating Homebrew... 
+Adjust how often this is run with `$HOMEBREW_AUTO_UPDATE_SECS` or disable with 
+`$HOMEBREW_NO_AUTO_UPDATE=1`. Hide these hints with `$HOMEBREW_NO_ENV_HINTS=1` (see `man brew`). 
+==> Downloading https://ghcr.io/v2/homebrew/core/portable-ruby/blobs/sha256:1c98fa49eacc935640a6f8e10a2bf33f14cfc276804b71ddb658ea45ba99d167 
+######################################################## 100.0%
+==> Pouring portable-ruby-3.4.8.arm64_big_sur.bottle.tar.gz 
+==> Auto-updated Homebrew! 
+Updated 3 taps (mongodb/brew, homebrew/core and homebrew/cask).
+==> New Formulae 
+agent-browser: Browser automation CLI for AI agents 
+any2fasta: Convert various sequence formats to FASTA 
+arcadedb: Multi-Model DBMS: Graph, Document, Key/Value, Search, Time Series, Vector 
+azure-dev: Developer CLI that provides commands for working with Azure resources 
+azurite: Lightweight server clone of Azure Storage that simulates it locally 
+beads_viewer: Terminal-based UI for the Beads issue tracker 
+cargo-features-manager: TUI like cli tool to manage the features of your rust-project dependencies 
+codanna: Code intelligence system with semantic search 
+codex-acp: Use Codex from ACP-compatible clients such as Zed! 
+cozyhr: Cozy wrapper around Helm and Flux CD for local development 
+cronboard: Terminal-based dashboard for managing cron jobs locally and on servers 
+dbcsr: Distributed Block Compressed Sparse Row matrix library 
+dovi_convert: Dolby Vision Profile 7 to 8.1 MKV converter 
+durdraw: Versatile ASCII and ANSI Art text editor for drawing in the terminal 
+ekphos: Terminal-based markdown research tool inspired by Obsidian 
+fence: Lightweight sandbox for commands with network and filesystem restrictions 
+ffmpeg-full: Play, record, convert, and stream many audio and video codecs 
+fzf-tab: Replace zsh completion selection menu with fzf 
+ghc@9.12: Glorious Glasgow Haskell Compilation System 
+gnuastro: Astronomical data manipulation and analysis utilities and libraries 
+go-air: Live reload for Go apps 
+gogcli: Google Suite CLI 
+hdrhistogram_c: C port of the HdrHistogram 
+hindent: Haskell pretty printer 
+ic-wasm: CLI tool for performing Wasm transformations specific to ICP canisters 
+icp-cli: Development tool for building and deploying canisters on ICP 
+imagemagick-full: Tools and libraries to manipulate images in many formats 
+jqfmt: Opinionated formatter for jq 
+kubefwd: Bulk port forwarding Kubernetes services for local development 
+libigloo: Generic C framework used and developed by the Icecast project 
+libks: Foundational support for signalwire C products 
+libthai: Thai language support library 
+litra: Control Logitech Litra lights from the command-line 
+llhttp: Port of http_parser to llparse 
+mac-cleanup-go: TUI macOS cleaner that scans caches/logs and lets you select what to delete 
+magics: ECMWF's meteorological plotting software 
+minizign: Minisign reimplemented in Zig 
+mlx-c: C API for MLX 
+nativefiledialog-extended: Native file dialog library with C and C++ bindings 
+odiff: Very fast SIMD-first image comparison library (with nodejs API) 
+openskills: Universal skills loader for AI coding agents 
+pgroll: Postgres zero-downtime migrations made easy 
+pocket-tts: Text-to-speech application designed to run efficiently on CPUs 
+radicle: Sovereign code forge built on Git 
+ralph-orchestrator: Multi-agent orchestration framework for autonomous AI task completion 
+repeater: Flashcard program that uses spaced repetition 
+rig-r: R Installation Manager 
+rv-r: Declarative R package manager 
+sandvault: Run AI agents isolated in a sandboxed macOS user account 
+sheenbidi: Fast and stable implementation of the Unicode Bidirectional Algorithm 
+shiki: Beautiful yet powerful syntax highlighter 
+signalwire-client-c: SignalWire C Client SDK 
+static-web-apps-cli: SWA CLI serves as a local development tool for Azure Static Web Apps 
+tftp-now: Single-binary TFTP server and client that you can use right now 
+tock: Powerful time tracking tool for the command-line 
+tpix: Simple terminal image viewer using the Kitty graphics protocol 
+transifex-cli: Transifex command-line client 
+vampire: High-performance theorem prover 
+vtsls: LSP wrapper for typescript extension of vscode 
+whosthere: LAN discovery tool with a modern TUI written in Go 
+wik: View Wikipedia pages from your terminal 
+worktrunk: CLI for Git worktree management, designed for parallel AI agent workflows 
+xcsift: Swift tool to parse xcodebuild output for coding agents
+yap: On-device audio transcription using Speech.framework 
+==> New Casks 
+amical: AI dictation app 
+appvolume: Per-application volume control 
+aquaskk@prerelease: Input method without morphological analysis
+ausweisapp: Official eID-Client of the Federal Government of Germany 
+auto-claude: Autonomous multi-session AI coding 
+bettershot: Screen capturing and editing tool 
+boltai@1: AI chat client 
+captains-deck: Dual-pane file manager inspired by Norton Commander 
+clash-mi: Another Mihomo GUI based on Flutter 
+claudebar: Menu bar app for monitoring AI coding assistant usage quotas 
+codebuddy: AI-powered adaptive IDE 
+codebuddy-cn: AI-powered adaptive IDE (Chinese version) 
+codex-app: OpenAI's Codex desktop app for managing coding agents 
+codexbar: Menu bar usage monitor for Codex and Claude 
+commander: AI agent operator 
+eigent: Desktop AI agent 
+elegoo-slicer: Open-source slicer for FDM 3D printers 
+ethui: Ethereum development toolkit with wallet and anvil support 
+finetune: Per-application volume mixer, equalizer, and audio router 
+font-playwrite-nz-basic 
+font-playwrite-nz-basic-guides 
+font-zxgamut 
+fork@dev: Git client 
+freeshow@beta: Presentation software 
+gitfit: Micro-workouts while waiting for AI code generation 
+glide: Tiling window manager with tree layouts 
+hytale: Official Hytale Launcher 
+impactor: Sideloading application for iOS/tvOS 
+infinidesk: Create multiple virtual desktops, each with unique files, wallpaper and widgets 
+ipaverse: Tool for downloading and managing iOS apps from the App Store 
+kogiqa: UI automation tool using natural language descriptions 
+lolgato: Enhances control over Elgato lights 
+luxury-yacht: Desktop app for managing Kubernetes clusters 
+mcpbundler: MCP servers and Agent skills management app 
+middledrag: Middle-click and middle-drag via three-finger trackpad gestures 
+monologue: AI voice dictation that adapts to your writing style
+mos@beta: Smooths scrolling and set mouse scroll directions independently 
+novation-play: Virtual instrument for Novation Launchkey MK4 hardware 
+plasticity: 3D modeling software for concept artists and designers 
+plaud: AI note-taking for online meetings, phone calls, and in-person conversations 
+posturr: Posture monitoring app 
+proscoreboard: Scoreboard software 
+provideoplayer: Presentation software 
+repobar: Menu bar dashboard for GitHub repository health 
+retrace: Local-first screen recording and search application 
+seam-app: Productivity-first Dynamic Island for your Notch 
+sky: Bluesky Social client 
+stremioservice: Companion app for Stremio Web 
+superset: Terminal for orchestrating agents 
+tana: Knowledge management workspace with AI-powered outlining 
+thaw: Menu bar manager 
+transmission@beta: Open-source BitTorrent client 
+trimmy: Paste-once, run-once clipboard cleaner for terminal snippets 
+tritium: Integrated drafting environment for legal professionals 
+waveforms: Virtual instrument suite for Digilent Test and Measurement devices 
+whyfi: Menu bar Wi-Fi monitor and diagnostics app 
+wispr-flow: Voice-to-text dictation with AI-powered auto-editing 
+yandextelemost: Yandex video calls and meetings platform 
+zedis: Redis GUI built with Rust and GPUI 
+ 
+You have 44 outdated formulae installed. 
+ 
+tesseract 5.5.1_1 is already installed but outdated (so it will be upgraded). 
+==> Fetching downloads for: tesseract 
+✔︎ Bottle Manifest tesseract (5.5.2) Downloaded   42.4KB/ 42.4KB
+✔︎ Bottle Manifest libpng (1.6.54)   Downloaded    8.5KB/  8.5KB
+✔︎ Bottle Manifest glib (2.86.3)     Downloaded   20.2KB/ 20.2KB
+✔︎ Bottle Manifest pcre2 (10.47_1)   Downloaded   11.7KB/ 11.7KB
+✔︎ Bottle Manifest gettext (1.0)     Downloaded   13.7KB/ 13.7KB
+✔︎ Bottle Manifest xorgproto (2025.1 Downloaded   13.1KB/ 13.1KB
+✔︎ Bottle Manifest jpeg-turbo (3.1.3 Downloaded    8.3KB/  8.3KB
+✔︎ Bottle Manifest xz (5.8.2)        Downloaded   11.8KB/ 11.8KB
+✔︎ Bottle Manifest leptonica (1.87.0 Downloaded   17.3KB/ 17.3KB
+✔︎ Bottle libpng (1.6.54)            Downloaded  459.0KB/459.0KB
+✔︎ Bottle Manifest zstd (1.5.7_1)    Downloaded   13.2KB/ 13.2KB
+✔︎ Bottle Manifest libtiff (4.7.1_1) Downloaded   12.6KB/ 12.6KB
+✔︎ Bottle Manifest little-cms2 (2.18 Downloaded   12.2KB/ 12.2KB
+✔︎ Bottle pcre2 (10.47_1)            Downloaded    2.4MB/  2.4MB
+✔︎ Bottle xz (5.8.2)                 Downloaded  764.3KB/764.3KB
+✔︎ Bottle Manifest libdatrie (0.2.14 Downloaded    7.8KB/  7.8KB
+✔︎ Bottle zstd (1.5.7_1)             Downloaded  793.6KB/793.6KB
+✔︎ Bottle Manifest libarchive (3.8.5 Downloaded   12.0KB/ 12.0KB
+✔︎ Bottle Manifest libthai (0.1.30)  Downloaded    8.2KB/  8.2KB
+✔︎ Bottle libtiff (4.7.1_1)          Downloaded    1.9MB/  1.9MB
+✔︎ Bottle xorgproto (2025.1)         Downloaded  720.1KB/720.1KB
+✔︎ Bottle little-cms2 (2.18)         Downloaded  434.8KB/434.8KB
+✔︎ Bottle libdatrie (0.2.14)         Downloaded   70.5KB/ 70.5KB
+✔︎ Bottle glib (2.86.3)              Downloaded    9.2MB/  9.2MB
+✔︎ Bottle jpeg-turbo (3.1.3)         Downloaded    1.1MB/  1.1MB
+✔︎ Bottle tesseract (5.5.2)          Downloaded   13.2MB/ 13.2MB
+✔︎ Bottle libthai (0.1.30)           Downloaded  277.4KB/277.4KB
+✔︎ Bottle leptonica (1.87.0)         Downloaded    2.7MB/  2.7MB
+✔︎ Bottle gettext (1.0)              Downloaded   10.2MB/ 10.2MB
+✔︎ Bottle libarchive (3.8.5)         Downloaded    1.6MB/  1.6MB
+==> Upgrading tesseract 
+  5.5.1_1 -> 5.5.2  
+==> Installing dependencies for tesseract: libpng, glib, xorgproto, jpeg-turbo, xz, leptonica, libarchive, libdatrie and libthai 
+==> Installing tesseract dependency: libpng 
+==> Pouring libpng--1.6.54.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/libpng/1.6.54: 28 files, 1.4MB 
+==> Installing tesseract dependency: glib 
+==> Pouring glib--2.86.3.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/glib/2.86.3: 504 files, 39.6MB 
+==> Installing tesseract dependency: xorgproto 
+==> Pouring xorgproto--2025.1.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/xorgproto/2025.1: 268 files, 4.1MB 
+==> Installing tesseract dependency: jpeg-turbo 
+==> Pouring jpeg-turbo--3.1.3.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/jpeg-turbo/3.1.3: 47 files, 3.7MB 
+==> Installing tesseract dependency: xz 
+==> Pouring xz--5.8.2.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/xz/5.8.2: 96 files, 2.7MB 
+==> Installing tesseract dependency: leptonica 
+==> Pouring leptonica--1.87.0.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/leptonica/1.87.0: 55 files, 7.2MB 
+==> Installing tesseract dependency: libarchive 
+==> Pouring libarchive--3.8.5.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/libarchive/3.8.5: 65 files, 4MB 
+==> Installing tesseract dependency: libdatrie 
+==> Pouring libdatrie--0.2.14.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/libdatrie/0.2.14: 20 files, 313.0KB 
+==> Installing tesseract dependency: libthai 
+==> Pouring libthai--0.1.30.arm64_tahoe.bottle.tar.gz 
+🍺  /opt/homebrew/Cellar/libthai/0.1.30: 30 files, 974.9KB 
+==> Installing tesseract 
+==> Pouring tesseract--5.5.2.arm64_tahoe.bottle.tar.gz 
+==> Caveats 
+This formula contains only the "eng", "osd", and "snum" language data files. 
+If you need any other supported languages, run `brew install tesseract-lang`. 
+==> Summary 
+🍺  /opt/homebrew/Cellar/tesseract/5.5.2: 75 files, 34.9MB 
+==> Running `brew cleanup tesseract`... 
+Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`. 
+Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`). 
+Removing: /opt/homebrew/Cellar/tesseract/5.5.1_1... (75 files, 34.8MB) 
+==> `brew cleanup` has not been run in the last 30 days, runnin
+Disable this behaviour by setting `HOMEBREW_NO_INSTALL_CLEANUP=1`. 
+Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`). 
+Removing: /opt/homebrew/Cellar/glib/2.86.2... (504 files, 39.6MB) 
+Removing: /opt/homebrew/Cellar/jpeg-turbo/3.1.2... (47 files, 3.7MB) 
+Removing: /opt/homebrew/Cellar/leptonica/1.86.0... (55 files, 7.2MB) 
+Removing: /opt/homebrew/Cellar/libarchive/3.8.3... (65 files, 4MB) 
+Removing: /opt/homebrew/Cellar/libpng/1.6.51... (28 files, 1.4MB) 
+Removing: /opt/homebrew/Cellar/xorgproto/2024.1... (268 files, 4.1MB) 
+Removing: /opt/homebrew/Cellar/xz/5.8.1... (96 files, 2.6MB) 
+==> Autoremoving 2 unneeded formulae: 
+libdatrie 
+libthai 
+Uninstalling /opt/homebrew/Cellar/libthai/0.1.30... (30 files, 974.9KB) 
+Uninstalling /opt/homebrew/Cellar/libdatrie/0.2.14... (20 files, 313.0KB) 
+Removing: /Users/mitchelwatson/Library/Caches/Homebrew/portable-ruby-3.4.8.arm64_big_sur.bottle.tar.gz... (12.2MB) 
+Removing: /Users/mitchelwatson/Library/Caches/Homebrew/bootsnap/42e939983ed75547f42207cad9f1e0fde134291f63f94bcb8df8abbd25416d42... (596 files, 5.0MB) 
+Removing: /opt/homebrew/var/homebrew/tmp/.cellar/libtiff... (487 files, 9.0MB) 
+Removing: /opt/homebrew/var/homebrew/tmp/.cellar/little-cms2... (22 files, 1.5MB) 
+Removing: /opt/homebrew/var/homebrew/tmp/.cellar/gettext... (2,498 files, 35.3MB) 
+Removing: /opt/homebrew/var/homebrew/tmp/.cellar/zstd... (31 files, 2.3MB) 
+Removing: /opt/homebrew/var/homebrew/tmp/.cellar/pcre2... (243 files, 7.3MB) 
+Pruned 0 symbolic links and 2 directories from /opt/homebrew 
+==> Caveats 
+==> tesseract 
+This formula contains only the "eng", "osd", and "snum" language data files. 
+If you need any other supported languages, run `brew install tesseract-lang`. 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % tesseract --version 
+tesseract 5.5.2 
+ leptonica-1.87.0 
+  libgif 5.2.2 : libjpeg 8d (libjpeg-turbo 3.1.3) : libpng 1.6.54 : libtiff 4.7.1 : zlib 1.2.12 : libwebp 1.6.0 : libopenjp2 2.5.4 
+ Found NEON 
+ Found libarchive 3.8.5 zlib/1.2.12 liblzma/5.8.2 bz2lib/1.0.8 liblz4/1.10.0 libzstd/1.5.7 expat/expat_2.7.1 CommonCrypto/system libb2/system 
+ Found libcurl/8.7.1 SecureTransport (LibreSSL/3.3.6) zlib/1.2.12 nghttp2/1.67.1 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % source "$HOME/.config/mitchopolis/env.sh" 
+cd "$EE" || exit 1 
+source .venv/bin/activate 
+unset PYTHONHOME PYTHONPATH 
+export PYTHONNOUSERSITE=1 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % python src/analysis/narrative.py 
+/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/.venv/bin/python: can't open file '/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/src/analysis/narrative.py': [Errno 2] No such file or directory 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % python -m src.analysis.narrative 
+/Users/mitchelwatson/Projects/Mitchopolis/evidence_engine/.venv/bin/python: No module named src.analysis.narrative 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % export OPENAI_API_KEY="..." 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine % source "$HOME/.config/mitchopolis/env.sh" 
+cd "$EE" || exit 1 
+code src/router.py 
+(.venv) mitchelwatson@Mitchels-Mac-mini evidence_engine %  
